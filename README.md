@@ -10,7 +10,7 @@ nacfy/
 │   ├── src/
 │   │   └── agent.py             # 에이전트 메인 스크립트
 │   └── requirements.txt         # 의존성 목록
-│   └── venv/                    # (로컬) 가상환경 - git에 포함 ❌
+│   └── venv/                    # (로컬) 가상환경
 │
 ├── server/                      # nacfy 중앙 제어 서버
 │   ├── src/
