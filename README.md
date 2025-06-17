@@ -4,7 +4,7 @@
 It provides centralized configuration management and agent communication for secure server environments.
 
 ## 📦 Project Structure
-
+```
 nacfy/
 ├── server/ # nacfy 중앙 제어 서버
 │ ├── src/
@@ -24,3 +24,4 @@ nacfy/
 ├── .gitignore
 ├── README.md
 └── docker-compose.yml # (선택) 개발용 통합 실행 스크립트
+```
