@@ -1,0 +1,2 @@
+# requirements 파일은 필요한 패키지는 적어두는 텍스트 파일
+# pip install -r requirements.txt 한번에 동일 환경 구축 가능

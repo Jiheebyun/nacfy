@@ -17,7 +17,7 @@ def main():
     config = fetch_config(AGENT_ID)
     if config:
         print(f"[INFO] config received: {config}")
-        # 여기에 스캔, 로그 전송 등 넣을 수 있어
+
 
 if __name__ == "__main__":
     main()
