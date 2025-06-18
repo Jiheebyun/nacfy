@@ -5,3 +5,16 @@ node_modules/
 __pycache__/
 dist/
 build/
+*.py[cod]
+*.pyo
+
+
+
+# 가상환경 (Agent)
+agent/venv/
+.env            
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
