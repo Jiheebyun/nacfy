@@ -11,8 +11,7 @@ build/
 
 
 # 가상환경 (Agent)
-agent/venv/
-.env            
+agent/venv/          
 
 # IDE / OS
 .vscode/
