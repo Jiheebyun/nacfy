@@ -35,3 +35,13 @@ nacfy/
 └── docker-compose.yml           # (선택) 개발용 통합 실행 스크립트
 
 ```
+
+
+### AI
+
+| 단계                            | 핵심 책임                                                   | 구현 힌트                                                                     |
+| ----------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------- |
+| ① **데이터 수집 & 정규화**            | 에이전트가 실시간 메트릭·로그·보안 이벤트를 수집해 **표준 스키마(JSON)** 로 서버에 업로드 | 기존 `jobs/sysinfo.py`, `log_uploader.py` → “policy-features” 컬럼 추가         |
+| ② **정책 추론(Policy Inference)** | AI 모델이 “현재 상태 → 추천 변경사항” 출력                             | `shared/ai/predictor.py`<br>∙ 룰 기반 + 보강 학습(LLM + RAG) or 작은 GNN/Tree 모델   |
+| ③ **검증 & 적용(Orchestrator)**   | 모델 결과를 *규칙 엔진*·승인 플로우로 통과시킨 뒤, 에이전트에 **PUSH 명령**        | FastAPI `/command` endpoint + policy-engine(OPA Rego 등)                   |
+| ④ **설명 생성(Explain)**          | “왜 이런 변경을 권했는가?” → 자연어 요약                               | LLM prompt: *“Because CPU > 85 % for 5 min, model X voted … therefore …”* |
