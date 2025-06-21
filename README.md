@@ -5,34 +5,60 @@ It provides centralized configuration management and agent communication for sec
 
 ## 📦 Project Structure
 ```
-nacfy/
-├── agent/                        # 서버에 설치되는 에이전트
-│   ├── src/
-│   │   └── agent.py             # 에이전트 메인 스크립트
-│   └── requirements.txt         # 의존성 목록
-│   └── venv/                    # (로컬) 가상환경
+nacfy/                        ← Git 루트
 │
-├── server/                      # nacfy 중앙 제어 서버
-│   ├── src/
-│   │   ├── controllers/         # API 로직 분리 예정
-│   │   ├── routes/              # 라우트 분리 예정
-│   │   └── index.js             # 서버 엔트리포인트
-│   ├── web/                     # React UI
-│   │   ├── src/
-│   │   │   ├── App.tsx
-│   │   │   └── main.tsx
-│   │   ├── public/
-│   │   ├── index.html
-│   │   ├── package.json
-│   │   └── vite.config.ts
-│   ├── package.json             # Express 서버용
-│   └── .env                     # 서버 설정
+├─ server/                    ← Node∙Express API + WebSocket/SSE
+│   ├─ package.json
+│   ├─ tsconfig.json
+│   ├─ src/
+│   │   ├─ index.ts          # 앱 부트
+│   │   ├─ routes/
+│   │   │   ├─ chat.ts       # ① POST /api/ai/chat
+│   │   │   ├─ command.ts    # ⑥ /command push
+│   │   │   └─ policy.ts     # ④ policy 검증 라우터
+│   │   ├─ ws/               # 채팅 스트림(SSE·WebSocket)
+│   │   └─ services/
+│   │       ├─ aiClient.ts   # ml-service HTTP 클라이언트
+│   │       └─ policyClient.ts
+│   └─ .env.example
 │
-├── shared/                      # 공통 상수/유틸 (선택)
-├── docs/                        # 설계 문서, API 흐름도 등
-├── .gitignore
-├── README.md
-└── docker-compose.yml           # (선택) 개발용 통합 실행 스크립트
+├─ ml-service/                ← Python FastAPI(LangChain·LLM)
+│   ├─ requirements.txt
+│   ├─ app/
+│   │   ├─ main.py           # ② POST /chat
+│   │   ├─ llm_client.py     # OpenAI / LoRA 모델
+│   │   ├─ policy_model.py   # 추론 로직
+│   │   └─ explainer.py      # 자연어 설명 생성
+│   └─ Dockerfile
+│
+├─ agent/                     ← FastAPI + APScheduler
+│   ├─ requirements.txt
+│   ├─ src/
+│   │   ├─ __init__.py
+│   │   ├─ main.py           # /ping · /command
+│   │   ├─ config.py
+│   │   ├─ logger.py
+│   │   ├─ service/          # nacfy API 호출
+│   │   │   └─ client.py
+│   │   ├─ jobs/             # heartbeat · sysinfo · …
+│   │   │   ├─ heartbeat.py
+│   │   │   └─ sysinfo.py
+│   │   └─ os_exec/          # 방화벽·systemctl 실행 헬퍼
+│   └─ venv/                 # Git 무시 (agent/venv/)
+│
+├─ shared/                    ← 공용 스키마·유틸·AI 헬퍼
+│   ├─ __init__.py
+│   ├─ ai/
+│   │   ├─ __init__.py
+│   │   ├─ feature_schema.py # Pydantic 모델
+│   │   └─ constants.py
+│   ├─ proto/                # (선택) gRPC .proto
+│   └─ ts/                   # TypeScript 공통 타입
+│
+├─ docs/                      ← 설계, API 명세, ADR
+│
+└─ .gitignore
+
 
 ```
 
