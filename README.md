@@ -5,59 +5,63 @@ It provides centralized configuration management and agent communication for sec
 
 ## 📦 Project Structure
 ```
-nacfy/                        ← Git 루트
+nacfy/                         ← 프로젝트 루트
+├── agent/                     ← 중앙 에이전트 패키지
+│   ├── src/                   ← 에이전트 실제 코드
+│   │   ├── ai/                ← AI 기능 모듈
+│   │   │   ├── __init__.py
+│   │   │   ├── pipeline.py
+│   │   │   └── models.py
+│   │   ├── common/            ← 공통 로직 (OS 구분 없는 부분)
+│   │   │   ├── __init__.py
+│   │   │   └── installer.py
+│   │   ├── debian/            ← Debian/Ubuntu 전용 설치 로직
+│   │   │   ├── __init__.py
+│   │   │   └── installer.py
+│   │   ├── rpm/               ← RHEL/CentOS 전용 설치 로직
+│   │   │   ├── __init__.py
+│   │   │   └── installer.py
+│   │   └── main.py            ← 에이전트 진입점 (FastAPI + 스케줄러)
+│   │
+│   ├── debian/                ← `.deb` 빌드용 메타디렉터리
+│   │   ├── control
+│   │   ├── compat
+│   │   ├── rules
+│   │   ├── changelog
+│   │   └── source/
+│   │       └── format
+│   │
+│   ├── rpm/                   ← `.rpm` 빌드용 스켈레톤
+│   │   ├── SPECS/
+│   │   │   └── nacfy-agent.spec
+│   │   └── SOURCES/
+│   │
+│   ├── packaging/             ← 템플릿·초안 보관용
+│   │   ├── debian/            ← debian/control 등 초안
+│   │   └── rpm/               ← rpm spec 예제 등
+│   │
+│   ├── requirements.txt       ← Python 의존성 목록
+│   ├── README.md              ← 에이전트 전용 설명서
+│   └── install-agent.sh       ← 설치 스크립트 (옵션)
 │
-├─ server/                    ← Node∙Express API + WebSocket/SSE
-│   ├─ package.json
-│   ├─ tsconfig.json
-│   ├─ src/
-│   │   ├─ index.ts          # 앱 부트
-│   │   ├─ routes/
-│   │   │   ├─ chat.ts       # ① POST /api/ai/chat
-│   │   │   ├─ command.ts    # ⑥ /command push
-│   │   │   └─ policy.ts     # ④ policy 검증 라우터
-│   │   ├─ ws/               # 채팅 스트림(SSE·WebSocket)
-│   │   └─ services/
-│   │       ├─ aiClient.ts   # ml-service HTTP 클라이언트
-│   │       └─ policyClient.ts
-│   └─ .env.example
+├── server/                    ← Nacfy 서버 애플리케이션
+│   ├── src/
+│   │   ├── api/
+│   │   ├── models/
+│   │   └── main.py
+│   └── debian/
 │
-├─ ml-service/                ← Python FastAPI(LangChain·LLM)
-│   ├─ requirements.txt
-│   ├─ app/
-│   │   ├─ main.py           # ② POST /chat
-│   │   ├─ llm_client.py     # OpenAI / LoRA 모델
-│   │   ├─ policy_model.py   # 추론 로직
-│   │   └─ explainer.py      # 자연어 설명 생성
-│   └─ Dockerfile
+├── shared/                    ← agent ↔ server 공통 라이브러리
+│   └── utils.py
 │
-├─ agent/                     ← FastAPI + APScheduler
-│   ├─ requirements.txt
-│   ├─ src/
-│   │   ├─ __init__.py
-│   │   ├─ main.py           # /ping · /command
-│   │   ├─ config.py
-│   │   ├─ logger.py
-│   │   ├─ service/          # nacfy API 호출
-│   │   │   └─ client.py
-│   │   ├─ jobs/             # heartbeat · sysinfo · …
-│   │   │   ├─ heartbeat.py
-│   │   │   └─ sysinfo.py
-│   │   └─ os_exec/          # 방화벽·systemctl 실행 헬퍼
-│   └─ venv/                 # Git 무시 (agent/venv/)
+├── docs/
+│   └── architecture.md
 │
-├─ shared/                    ← 공용 스키마·유틸·AI 헬퍼
-│   ├─ __init__.py
-│   ├─ ai/
-│   │   ├─ __init__.py
-│   │   ├─ feature_schema.py # Pydantic 모델
-│   │   └─ constants.py
-│   ├─ proto/                # (선택) gRPC .proto
-│   └─ ts/                   # TypeScript 공통 타입
+├── debian/                    ← 전체 프로젝트 패키징 (선택)
 │
-├─ docs/                      ← 설계, API 명세, ADR
+├── rpm/                       ← 전체 프로젝트 패키징 (선택)
 │
-└─ .gitignore
+└── README.md                  ← 프로젝트 개요, 설치·개발 가이드
 
 
 ```
