@@ -1,0 +1,13 @@
+[Unit]
+Description=Nacfy Agent (central)
+After=network.target
+
+[Service]
+User=nacfy
+WorkingDirectory=/opt/nacfy-agent/agent
+ExecStart=/opt/nacfy-agent/venv/bin/uvicorn src.main:app --port 9010
+EnvironmentFile=/opt/nacfy-agent/agent/.env
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
