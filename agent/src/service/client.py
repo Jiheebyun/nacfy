@@ -1,3 +1,4 @@
+# src/service/client.py
 import httpx
 from ..config import settings
 from ..logger import get_logger
@@ -6,9 +7,9 @@ log = get_logger(__name__)
 
 async def fetch_config() -> dict | None:
     """
-    중앙-에이전트가 60 초마다 호출해
-    nacfy API → /api/config/<AGENT_ID> 를 가져오는 헬퍼.
-    실패해도 에이전트가 죽지 않도록 None 을 돌려준다.
+    중앙-에이전트가 60초마다 호출해
+    /api/config/<AGENT_ID> 를 가져오는 헬퍼.
+    실패해도 에이전트가 죽지 않도록 None을 돌려준다.
     """
     url = f"{settings.nacfy_server}/api/config/{settings.agent_id}"
     try:
@@ -22,6 +23,21 @@ async def fetch_config() -> dict | None:
         log.error("fetch_config failed: %s", err)
         return None
 
+async def send_heartbeat(payload: dict) -> bool:
+    """
+    수집된 메트릭(payload)을
+    /api/heartbeat/<AGENT_ID> 로 POST 전송하는 헬퍼.
+    실패해도 에이전트가 죽지 않도록 False를 돌려준다.
+    """
+    url = f"{settings.nacfy_server}/api/heartbeat/{settings.agent_id}"
+    try:
+        async with httpx.AsyncClient(timeout=10) as client:
+            r = await client.post(url, json=payload)
+            r.raise_for_status()
+            return True
+    except httpx.HTTPError as err:
+        log.error("send_heartbeat failed: %s", err)
+        return False
 
 
 # | 상황 | 중앙-에이전트(지금 만들고 있는 FastAPI 프로세스)가 Nacfy 웹-서버와 계속 통신해야 함.<br>예) “내 설정 좀 줘”, “나는 살아 있어(heartbeat)”, “지금 노드가 3개 붙었어” |
