@@ -25,4 +25,8 @@ async def startup():
 
 @app.get("/ping")
 def ping():
-    return {"ok": True}
+    return {
+        "ok": True,
+        "role": "agent",
+        "id": settings.agent_id
+    }
