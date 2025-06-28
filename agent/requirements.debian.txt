@@ -1,3 +1,8 @@
+# ===========================================
+# Nacfy Agent - Debian 11 (Bullseye) 환경용 의존성
+# Python 3.9 기반
+# ===========================================
+
 # requirements 파일은 필요한 패키지는 적어두는 텍스트 파일
 # pip install -r requirements.txt 한번에 동일 환경 구축 가능
 
@@ -15,4 +20,4 @@ apscheduler
 pydantic
 python-dotenv
 pydantic-settings
-psutil
+psutil 

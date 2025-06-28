@@ -1,0 +1,48 @@
+# ===========================================
+# Nacfy Agent - Ubuntu 22.04 LTS 테스트 환경
+# 클라우드 서버 환경과 동일한 조건에서 테스트
+# ===========================================
+version: '3.8'
+
+services:
+  # Nacfy 서버 (Node.js)
+  nacfy-server:
+    build: ../server
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../server:/app
+      - /app/node_modules
+    command: npm start
+
+  # Nacfy 에이전트 (Python - Ubuntu 22.04 LTS 환경)
+  nacfy-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.ubuntu  # Ubuntu용 Dockerfile 사용
+    ports:
+      - "9010:9010"
+    environment:
+      - AGENT_ID=agent-ubuntu-22.04-001
+      - NACFY_SERVER=http://nacfy-server:3000
+      - FETCH_INTERVAL=30  # 테스트용으로 30초로 단축
+    volumes:
+      # 호스트의 시스템 정보를 컨테이너에 마운트
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run:/host/var/run:ro
+    depends_on:
+      - nacfy-server
+    restart: unless-stopped
+
+  # 테스트용 nginx 서비스 (에이전트가 모니터링할 대상)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./test/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nacfy-agent 

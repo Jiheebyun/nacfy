@@ -1,0 +1,43 @@
+# ===========================================
+# Nacfy Agent - Ubuntu 22.04 LTS 환경
+# 클라우드 서버 환경과 동일한 테스트 환경
+# ===========================================
+FROM ubuntu:22.04
+
+# 환경 변수 설정 (비대화형 설치)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 시스템 패키지 업데이트 및 필요한 패키지 설치
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    systemd \
+    systemd-sysv \
+    procps \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# Python 가상환경 생성
+RUN python3 -m venv venv
+ENV PATH="/app/venv/bin:$PATH"
+
+# requirements.ubuntu.txt 복사 및 패키지 설치
+COPY requirements.ubuntu.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 소스 코드 복사
+COPY src/ ./src/
+
+# 포트 노출
+EXPOSE 9010
+
+# 헬스체크 추가
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:9010/ping || exit 1
+
+# 에이전트 실행
+CMD ["python", "-m", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "9010"] 

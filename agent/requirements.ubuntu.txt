@@ -1,0 +1,23 @@
+# ===========================================
+# Nacfy Agent - Ubuntu 22.04 LTS 환경용 의존성
+# Python 3.10 기반
+# ===========================================
+
+# requirements 파일은 필요한 패키지는 적어두는 텍스트 파일
+# pip install -r requirements.txt 한번에 동일 환경 구축 가능
+
+# 가상환경 
+# agent % source /opt/anaconda3/etc/profile.d/conda.sh
+# agent % conda deactivate                            
+# source venv/bin/activate 
+
+#uvicorn src.main:app --port 9010 --reload
+#http://127.0.0.1:9010/docs
+fastapi
+uvicorn[standard]
+httpx
+apscheduler
+pydantic
+python-dotenv
+pydantic-settings
+psutil 
