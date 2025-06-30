@@ -71,7 +71,7 @@ def test_heartbeat_simulation():
     print("\n🔍 하트비트 시뮬레이션 테스트...")
     
     try:
-        from jobs.heartbeat import heartbeat_job
+        from src.jobs.heartbeat import heartbeat_job
         import asyncio
         
         # 비동기 함수 실행

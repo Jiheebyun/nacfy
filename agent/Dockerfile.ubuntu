@@ -31,6 +31,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # 소스 코드 복사
 COPY src/ ./src/
+COPY test/ ./test/
 
 # 포트 노출
 EXPOSE 9010
