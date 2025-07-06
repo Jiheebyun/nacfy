@@ -20,4 +20,5 @@ apscheduler
 pydantic
 python-dotenv
 pydantic-settings
-psutil 
+psutil
+pytest 
