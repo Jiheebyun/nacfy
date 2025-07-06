@@ -1,11 +1,12 @@
 # src/service/client.py
 import httpx
+from typing import Optional
 from ..config import settings
 from ..logger import get_logger
 
 log = get_logger(__name__)
 
-async def fetch_config() -> dict | None:
+async def fetch_config() -> Optional[dict]:
     """
     중앙-에이전트가 60초마다 호출해
     /api/config/<AGENT_ID> 를 가져오는 헬퍼.

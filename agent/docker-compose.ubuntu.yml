@@ -2,7 +2,7 @@
 # Nacfy Agent - Ubuntu 22.04 LTS 테스트 환경
 # 클라우드 서버 환경과 동일한 조건에서 테스트
 # ===========================================
-version: '3.8'
+#version: '3.8'
 
 services:
   # Nacfy 서버 (Node.js)
