@@ -26,7 +26,7 @@ ENV PATH="/app/venv/bin:$PATH"
 COPY requirements.debian.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 소스 코드 복사
+# 소스 코드 복사 (경로 수정)
 COPY src/ ./src/
 COPY test/ ./test/
 
