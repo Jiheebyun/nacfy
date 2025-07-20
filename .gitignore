@@ -1,24 +1,54 @@
-# 공통
+# 1. 보안/비밀정보 (실제 존재: mykey-private.asc, .gnupg/)
+mykey-private.asc
+.gnupg/
+*.key
+*.pem
+*.gpg
+*.crt
+*.p12
+*.enc
+*.asc
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+private.*
+secret.*
 .env
-*.log
-node_modules/
-__pycache__/
+.env.*
+
+# 2. 빌드/패키지 산출물 (실제 존재: nacfy-agent_1.0~ppa1_source.changes)
+*.deb
+*.changes
+*.build
+*.dsc
+*.buildinfo
+*.tar.*
 dist/
 build/
-*.py[cod]
+
+# 3. 파이썬/테스트 임시파일 (실제 존재: __pycache__/, *.pyc)
+__pycache__/
+*.pyc
 *.pyo
-# GPG 키(개인키) 보호
-.gnupg/
-*.gpg
-*.asc
-*.key
+*.pyd
+*.log
+*.tmp
+*.cache
+output/
+results/
 
-
-# 가상환경 (Agent)
-agent/venv/          
-
-# IDE / OS
+# 4. 가상환경/IDE/OS
+venv/
 .vscode/
 .idea/
 .DS_Store
-debian/
+
+# 5. 테스트 산출물, 필요시
+test/output/
+test/results/
+test/*.log
+test/*.tmp
+
+# server/
+server/node_modules/

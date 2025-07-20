@@ -1,0 +1,12 @@
+Source: nacfy-agent
+Section: utils
+Priority: optional
+Maintainer: Jihee <jh910805jh@gmail.com>
+Build-Depends: debhelper (>= 11)
+Standards-Version: 4.5.1
+
+Package: nacfy-agent
+Architecture: all
+Depends: \${misc:Depends}
+Description: Nacfy agent for network security management
+ Agent component for Nacfy, handling config fetch & heartbeat.

@@ -1,0 +1,7 @@
+nacfy-agent (1.0~ppa1) unstable; urgency=medium
+
+  * Upload version 1.0~ppa1 to Launchpad PPA
+  * Add Debian packaging metadata (control, rules, install)
+
+ -- Jihee <jh910805jh@gmail.com>  Wed, 09 Jul 2025 21:00:00 +0900
+

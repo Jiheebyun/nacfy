@@ -1,0 +1,4 @@
+# (src/와 test/ 경로가 agent/ 기준으로 맞는지 확인) 
+gpg --full-generate-key 
+gpg --armor --export jh910805jh@gamil.com 
+gpg --armor --export 1ADAAD516DE82C3FB8261675AAA18A7C31C43348 
