@@ -1,3 +1,9 @@
+nacfy-agent (1.0~ppa1+nmu1) jammy; urgency=medium
+
+  * Initial release.
+
+ -- root <root@bd5e4cea0bbc>  Mon, 21 Jul 2025 13:09:18 +0000
+
 nacfy-agent (1.0~ppa1) unstable; urgency=medium
 
   * Upload version 1.0~ppa1 to Launchpad PPA
